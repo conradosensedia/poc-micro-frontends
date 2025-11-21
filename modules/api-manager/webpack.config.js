@@ -6,11 +6,11 @@ module.exports = {
   entry: "./src/index.js",
   mode: "development",
   devServer: {
-    port: 3000,
+    port: 3001,
     historyApiFallback: true
   },
   output: {
-    publicPath: "auto"
+    publicPath: "http://localhost:3001/",
   },
   resolve: {
     extensions: [".js", ".jsx"]
@@ -24,22 +24,22 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ["style-loader", "css-loader"]
       }
     ]
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "host",
-      remotes: {
-        api_manager: "api_manager@http://localhost:3001/remoteEntry.js"
+      name: "api_manager",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./Module": "./src/App.js"
       },
       shared: {
-        react: { singleton: true, eager: true },
-        "react-dom": { singleton: true, eager: true }
+        react: { singleton: true, requiredVersion: false },
+        "react-dom": { singleton: true, requiredVersion: false }
       }
     }),
-
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     })

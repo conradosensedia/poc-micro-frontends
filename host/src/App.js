@@ -1,6 +1,12 @@
+import { useState } from "react";
+import { Suspense } from "react";
+import { lazy } from "react";
 import { Navbar, Nav, Container, Row, Col, ListGroup } from "react-bootstrap";
 
+const ApiManager = lazy(() => import("api_manager/Module"));
+
 export default function App() {
+  const [module, setModule] = useState("home");
   return (
     <>
       {/* NAVBAR */}
@@ -24,17 +30,22 @@ export default function App() {
           {/* SIDEBAR */}
           <Col xs={2} className="bg-light border-end vh-100 p-3">            
             <ListGroup variant="flush">
-              <ListGroup.Item action>APIs</ListGroup.Item>
+              <ListGroup.Item action onClick={() => setModule("api")}>
+                API Manager
+              </ListGroup.Item>
               <ListGroup.Item action>Apps</ListGroup.Item>
               <ListGroup.Item action>Planos</ListGroup.Item>
             </ListGroup>
           </Col>
-
-          {/* CONTENT */}
-          <Col xs={10} className="p-4">
-            <h1>Hello World</h1>
-            <p>Conteúdo principal do Host App</p>
-          </Col>
+         <Col xs={10} className="bg-light border-end vh-100 p-3"> 
+             {
+            module === "api" && (
+              <Suspense fallback={<div>Carregando módulo API Manager...</div>}>
+                <ApiManager />
+              </Suspense>
+            )
+          }
+         </Col>         
         </Row>
       </Container>
     </>
