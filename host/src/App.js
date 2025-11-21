@@ -1,10 +1,11 @@
-import React from "react";
-
 export default function App() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Hello World do Host</h1>
-      <p>Host funcionando com Module Federation!</p>
+    <div className="container mt-5">
+      <div className="alert alert-primary">
+        Host com Bootstrap funcionando!
+      </div>
+
+      <h1 className="text-center">Hello World</h1>
     </div>
   );
 }
